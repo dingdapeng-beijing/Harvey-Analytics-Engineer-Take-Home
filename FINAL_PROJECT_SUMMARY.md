@@ -36,8 +36,7 @@ This comprehensive analytics engineering project for Harvey (AI-powered legal pl
 - **Date Range**: April 2024 - June 2024
 
 ### **Generated Outputs**
-- **5 CSV Files**: Complete model outputs for analysis
-- **1 Visualization Chart**: Activation rate trends
+- **7 CSV Files**: Complete model outputs for analysis
 - **Total Records Generated**: 26,676 across all models
 
 ### **Key Insights**
@@ -51,7 +50,7 @@ This comprehensive analytics engineering project for Harvey (AI-powered legal pl
 ### **Python Data Quality Tools**
 - **Streamlined Structure**: Removed 9 unnecessary files, reduced dependencies from 20+ to 8 essential packages
 - **Model Simulation**: Complete dbt model simulation with CSV generation
-- **Generated Outputs**: 5 CSV files + 1 visualization chart
+- **Generated Outputs**: 7 CSV files
 - **Statistical Analysis**: IQR-based outlier detection and trend analysis
 
 ### **dbt Testing Framework**
@@ -138,7 +137,7 @@ harvey_analytics_engineer/
 - **Model Coverage**: 7 comprehensive data models covering all business domains
 - **Testing Coverage**: 100% of staging and mart models tested
 - **Documentation**: Complete metric definitions and business logic documentation
-- **Generated Outputs**: 5 CSV files + 1 visualization chart
+- **Generated Outputs**: 7 CSV files + 1 visualization chart
 - **Insights**: 4 key business insights with actionable recommendations
 
 ## 🎉 **Conclusion**
