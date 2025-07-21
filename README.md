@@ -366,7 +366,8 @@ python model_results_simulation.py
 - `user_acquisition_base_model.csv` - Individual user acquisition data
 - `user_acquisition_metrics_summary.csv` - Aggregated acquisition metrics
 - `event_performance_metrics_combined.csv` - Multi-dimensional event performance
-- `user_acquisition_activation_rate.png` - Activation rate visualization
+- `event_performance_metrics_daily.csv` - Daily event performance
+- `event_performance_metrics_weekly.csv` - Weekly event performance
 
 
 
