@@ -137,7 +137,7 @@ harvey_analytics_engineer/
 - **Model Coverage**: 7 comprehensive data models covering all business domains
 - **Testing Coverage**: 100% of staging and mart models tested
 - **Documentation**: Complete metric definitions and business logic documentation
-- **Generated Outputs**: 7 CSV files + 1 visualization chart
+- **Generated Outputs**: 7 CSV files + 5 visualization chart
 - **Insights**: 4 key business insights with actionable recommendations
 
 ## 🎉 **Conclusion**
