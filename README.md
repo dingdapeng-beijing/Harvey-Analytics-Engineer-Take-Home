@@ -503,7 +503,7 @@ The project includes comprehensive testing across two complementary frameworks:
 
 ## Contact & Support
 
-For questions about this project or Harvey's analytics infrastructure, please contact the Analytics Engineering team.
+For questions about this project please contact Dapeng Tony Ding.
 
 ---
 
