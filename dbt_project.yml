@@ -1,0 +1,117 @@
+name: 'harvey_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'harvey_analytics'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+models:
+  harvey_analytics:
+    # Config indicated by + and applies to all files under models/example/
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
+      core:
+        +materialized: table
+      marketing:
+        +materialized: table
+
+# Configuring seeds
+seeds:
+  harvey_analytics:
+    +column_types:
+      id: varchar(255)
+      created: date
+      firm_id: varchar(255)
+      user_id: varchar(255)
+      event_type: varchar(50)
+      num_docs: integer
+      feedback_score: integer
+      title: varchar(100)
+      firm_size: integer
+      arr_in_thousands: integer
+
+# Documentation
+docs-paths: ["docs"]
+
+# Logging
+log-path: "logs"
+
+# Require explicit schema names
+require_explicit_schema_names: true
+
+# Enable semantic layer
+semantic_models:
+  - name: user_engagement
+    model: ref('user_engagement')
+    description: "User engagement metrics by month"
+    defaults:
+      agg_time_dimension: month
+    entities:
+      - name: user_id
+        type: primary
+        expr: user_id
+    measures:
+      - name: total_queries
+        expr: sum(query_count)
+        agg: sum
+        create_metric: true
+      - name: avg_feedback_score
+        expr: avg(avg_feedback_score)
+        agg: avg
+        create_metric: true
+    dimensions:
+      - name: month
+        type: time
+        expr: month
+      - name: engagement_level
+        type: categorical
+        expr: engagement_level
+      - name: user_title
+        type: categorical
+        expr: user_title
+
+  - name: firm_usage_summary
+    model: ref('firm_usage_summary')
+    description: "Firm-level usage and health metrics"
+    entities:
+      - name: firm_id
+        type: primary
+        expr: firm_id
+    measures:
+      - name: total_arr
+        expr: sum(arr_in_thousands)
+        agg: sum
+        create_metric: true
+      - name: active_users
+        expr: sum(active_users_count)
+        agg: sum
+        create_metric: true
+      - name: total_queries
+        expr: sum(total_queries)
+        agg: sum
+        create_metric: true
+    dimensions:
+      - name: firm_size
+        type: categorical
+        expr: firm_size_category
+      - name: firm_name
+        type: categorical
+        expr: firm_name 

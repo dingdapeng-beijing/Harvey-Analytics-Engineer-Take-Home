@@ -1,0 +1,5 @@
+dbt-core>=1.5.0
+dbt-snowflake>=1.5.0  # or dbt-bigquery, dbt-redshift, etc.
+dbt-utils>=1.1.0
+dbt-expectations>=0.8.0
+dbt-audit-helper>=0.9.0 

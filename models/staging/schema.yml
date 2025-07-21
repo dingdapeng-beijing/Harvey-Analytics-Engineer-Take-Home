@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: stg_users
+    description: "Staging model for users data with data quality tests"
+    columns:
+      - name: user_id
+        description: "Primary key for users"
+        tests:
+          - not_null
+          - unique
+      - name: user_created_date
+        description: "Date when user was created"
+        tests:
+          - not_null
+      - name: user_title
+        description: "User's job title"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Associate', 'Junior Associate', 'Senior Associate', 'Partner']
+
+  - name: stg_firms
+    description: "Staging model for firms data with data quality tests"
+    columns:
+      - name: firm_id
+        description: "Primary key for firms"
+        tests:
+          - not_null
+          - unique
+      - name: firm_created_date
+        description: "Date when firm was created"
+        tests:
+          - not_null
+      - name: firm_size
+        description: "Number of employees at the firm"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "firm_size > 0"
+      - name: arr_in_thousands
+        description: "Annual Recurring Revenue in thousands"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "arr_in_thousands >= 0"
+
+  - name: stg_events
+    description: "Staging model for events data with data quality tests"
+    columns:
+      - name: event_id
+        description: "Primary key for events"
+        tests:
+          - not_null
+          - unique
+      - name: event_created_at
+        description: "Timestamp when event was created"
+        tests:
+          - not_null
+      - name: firm_id
+        description: "Foreign key to firms table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_firms')
+              field: firm_id
+      - name: user_id
+        description: "Foreign key to users table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: event_type
+        description: "Type of event"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ASSISTANT', 'VAULT', 'WORKFLOW']
+      - name: num_docs
+        description: "Number of documents processed"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "num_docs > 0"
+      - name: feedback_score
+        description: "User feedback score (1-5 scale)"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "feedback_score >= 1 AND feedback_score <= 5" 

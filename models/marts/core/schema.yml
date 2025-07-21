@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: user_engagement
+    description: "Monthly user engagement metrics with engagement level classification"
+    columns:
+      - name: user_id
+        description: "Unique identifier for each user"
+        tests:
+          - not_null
+      - name: firm_id
+        description: "Firm identifier"
+        tests:
+          - not_null
+      - name: month
+        description: "Month of engagement data"
+        tests:
+          - not_null
+      - name: query_count
+        description: "Total number of queries in the month"
+        tests:
+          - not_null
+          - positive_values
+      - name: engagement_level
+        description: "User engagement classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Power User', 'Active User', 'Regular User', 'Occasional User', 'Inactive']
+      - name: satisfaction_rate
+        description: "Percentage of queries with high satisfaction (4-5 score)"
+        tests:
+          - not_null
+          - range:
+              min: 0
+              max: 100
+
+  - name: firm_usage_summary
+    description: "Firm-level usage and health metrics"
+    columns:
+      - name: firm_id
+        description: "Unique identifier for each firm"
+        tests:
+          - not_null
+      - name: month
+        description: "Month of usage data"
+        tests:
+          - not_null
+      - name: active_users_count
+        description: "Number of active users in the month"
+        tests:
+          - not_null
+          - positive_values
+      - name: total_queries
+        description: "Total queries across all users in the firm"
+        tests:
+          - not_null
+          - positive_values
+      - name: firm_health_score
+        description: "Composite health score for the firm"
+        tests:
+          - not_null
+          - range:
+              min: 0
+              max: 100
+      - name: user_engagement_rate
+        description: "Percentage of users who are engaged"
+        tests:
+          - not_null
+          - range:
+              min: 0
+              max: 100
+
+  - name: daily_event_summary
+    description: "Daily event metrics for time-series analysis"
+    columns:
+      - name: date
+        description: "Date of events"
+        tests:
+          - not_null
+          - unique
+      - name: total_events
+        description: "Total number of events on the date"
+        tests:
+          - not_null
+          - positive_values
+      - name: unique_users
+        description: "Number of unique users active on the date"
+        tests:
+          - not_null
+          - positive_values
+      - name: satisfaction_rate
+        description: "Overall satisfaction rate for the date"
+        tests:
+          - not_null
+          - range:
+              min: 0
+              max: 100 

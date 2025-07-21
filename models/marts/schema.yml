@@ -1,0 +1,150 @@
+version: 2
+
+models:
+  - name: user_engagement
+    description: "User engagement metrics with comprehensive definitions"
+    columns:
+      - name: user_id
+        description: "Primary key for users"
+        tests:
+          - not_null
+      - name: firm_id
+        description: "Foreign key to firms"
+        tests:
+          - not_null
+      - name: month
+        description: "Month of engagement data"
+        tests:
+          - not_null
+      - name: query_count
+        description: "Total number of queries in the month"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "query_count >= 0"
+      - name: active_days
+        description: "Number of unique days with activity"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "active_days >= 0"
+      - name: avg_feedback_score
+        description: "Average feedback score (1-5 scale)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "avg_feedback_score >= 1 AND avg_feedback_score <= 5"
+      - name: satisfaction_rate
+        description: "Percentage of queries with high satisfaction (>=4)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "satisfaction_rate >= 0 AND satisfaction_rate <= 100"
+      - name: engagement_level
+        description: "User engagement classification"
+        tests:
+          - accepted_values:
+              values: ['Power User', 'Active User', 'Regular User', 'Occasional User', 'Inactive']
+
+  - name: daily_event_summary
+    description: "Daily aggregated event metrics"
+    columns:
+      - name: event_date
+        description: "Date of events"
+        tests:
+          - not_null
+      - name: total_events
+        description: "Total number of events"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_events >= 0"
+      - name: unique_users
+        description: "Number of unique users"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "unique_users >= 0"
+
+  - name: firm_usage_summary
+    description: "Firm-level usage metrics"
+    columns:
+      - name: firm_id
+        description: "Primary key for firms"
+        tests:
+          - not_null
+      - name: total_users
+        description: "Total number of users at the firm"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_users >= 0"
+      - name: total_events
+        description: "Total number of events"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_events >= 0"
+
+  - name: cohort_analysis_base
+    description: "Cohort analysis for user retention"
+    columns:
+      - name: cohort_month
+        description: "Month when users signed up"
+        tests:
+          - not_null
+      - name: months_since_signup
+        description: "Number of months since signup"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "months_since_signup >= 0"
+      - name: retention_rate_pct
+        description: "Retention rate percentage"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "retention_rate_pct >= 0 AND retention_rate_pct <= 100"
+
+  - name: user_acquisition_metrics
+    description: "User acquisition metrics for marketing"
+    columns:
+      - name: acquisition_month
+        description: "Month of user acquisition"
+        tests:
+          - not_null
+      - name: new_users_acquired
+        description: "Number of new users acquired"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "new_users_acquired >= 0"
+      - name: activation_rate_pct
+        description: "User activation rate percentage"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "activation_rate_pct >= 0 AND activation_rate_pct <= 100"
+
+  - name: event_performance_metrics
+    description: "Event performance metrics for marketing"
+    columns:
+      - name: granularity
+        description: "Time granularity (daily, weekly, monthly)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['daily', 'weekly', 'monthly']
+      - name: event_type
+        description: "Type of event"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ASSISTANT', 'VAULT', 'WORKFLOW']
+      - name: total_events
+        description: "Total number of events"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_events >= 0"
+      - name: avg_satisfaction_score
+        description: "Average satisfaction score"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "avg_satisfaction_score >= 1 AND avg_satisfaction_score <= 5" 

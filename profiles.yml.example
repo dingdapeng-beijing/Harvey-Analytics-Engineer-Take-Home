@@ -1,0 +1,47 @@
+harvey_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake  # or bigquery, redshift, postgres, etc.
+      account: your_account
+      user: your_username
+      password: your_password
+      role: your_role
+      database: harvey_analytics
+      warehouse: your_warehouse
+      schema: dev
+      threads: 4
+      client_session_keep_alive: False
+      
+    prod:
+      type: snowflake  # or bigquery, redshift, postgres, etc.
+      account: your_prod_account
+      user: your_prod_username
+      password: your_prod_password
+      role: your_prod_role
+      database: harvey_analytics
+      warehouse: your_prod_warehouse
+      schema: prod
+      threads: 8
+      client_session_keep_alive: False
+      
+    # Example for BigQuery
+    # dev:
+    #   type: bigquery
+    #   method: service-account
+    #   project: your-project-id
+    #   dataset: harvey_analytics_dev
+    #   location: US
+    #   threads: 4
+    #   keyfile: /path/to/service-account.json
+      
+    # Example for Redshift
+    # dev:
+    #   type: redshift
+    #   host: your-redshift-host
+    #   user: your_username
+    #   password: your_password
+    #   port: 5439
+    #   dbname: harvey_analytics
+    #   schema: dev
+    #   threads: 4 
